@@ -10,10 +10,10 @@ Follow the regular rails project creation process
 
 Disable CoffeeScript in Rails Gemfile by commenting it out as follows:
 
-		```javascript
-		#Use CoffeeScript for .js.coffee assets and views
-		#gem 'coffee-rails', '~> 4.0.0'
-		```
+```ruby
+#Use CoffeeScript for .js.coffee assets and views
+#gem 'coffee-rails', '~> 4.0.0'
+```
 
 *Step#2*
 
@@ -25,14 +25,14 @@ The app/assets/javascripts will now generate [ControllerName].js instead of [Con
 
 Add the following to the [ControllerName].js file:
 
-		```javascript
-		var ready = function() {
-			// your javascript code here
-		};
+```javascript
+var ready = function() {
+	// your javascript code here
+};
 
-		$(document).ready(ready);
-		$(document).on('page:load', ready); // this will allows link_to helpers to work correctly
-		```
+$(document).ready(ready);
+$(document).on('page:load', ready); // this will allows link_to helpers to work correctly
+```
 
 *Step#4*
 
