@@ -35,6 +35,7 @@ Add the following to the [ControllerName].js file:
 Proceed to create your forms (refer to example in the **app/views/products/new.html.erb** of this project for both regular html and simple_form).
 
   **Regular HTML form**
+
 		<form id="new_product" action="/products" method="post">
 			<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
 			<label for="product[name]">Name</label>
@@ -47,6 +48,7 @@ Proceed to create your forms (refer to example in the **app/views/products/new.h
 		</form>
 
   **Simple Form**
+
 		<%= simple_form_for Product.new, html: {:id => "new_product_simple_form"} do |f| %>
 			<%= f.input :name %>
 			<%= f.input :description %>
@@ -60,6 +62,7 @@ Proceed to create your forms (refer to example in the **app/views/products/new.h
 Add the ajax to listen for form submission (refer to example in the **app/assets/javascripts/products.js** file in this project)
 
   **Regular HTML form javascript**
+
 		// regular html form example
 		$('#new_product').submit(function() {
 			console.log("form submit hit"); // for debug
@@ -77,6 +80,7 @@ Add the ajax to listen for form submission (refer to example in the **app/assets
 
 
   **Simple Form javascript**
+
 		// simple_form example
 		$('#new_product_simple_form').submit(function() {
 			console.log("form submit hit"); // for debug
