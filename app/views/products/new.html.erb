@@ -1,0 +1,29 @@
+<h1>New Product</h1>
+
+<!-- Content will be updated upon response from ajax submission from backend -->
+<div id="product_result"></div> 
+
+<!-- regular html form -->
+<h2>Regular HTML Form</h2>
+<form id="new_product" action="/products" method="post">
+	<input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+	<label for="product[name]">Name</label>
+	<input type="text" name="product[name]">
+	<label for="product[description]">Description</label>
+	<textarea type="text" name="product[description]" ></textarea>
+	<label for="product[price]">Price</label>
+	<input type="text" name="product[price]">
+	<input type="submit" value="generate product">
+</form>
+
+
+<!-- Remember to set an id for the simple_form to match with the jquery selector in products.js -->
+<h2>Simple Form</h2>
+<%= simple_form_for Product.new, html: {:id => "new_product_simple_form"} do |f| %>
+	<%= f.input :name %>
+	<%= f.input :description %>
+	<%= f.input :price %>
+	<%= f.submit :button, :value=>"generate product" %>
+<% end %>
+
+<%= link_to "Product Home", products_path %>
