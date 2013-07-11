@@ -1,28 +1,53 @@
 == README
+Rails 4 - Ajax with Javascript
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Follow the regular rails project creation process
 
-Things you may want to cover:
+---
 
-* Ruby version
+Before creating your controllers
 
-* System dependencies
+Step #1
+Disable CoffeeScript in Rails Gemfile by commenting it out as follows:
+# Use CoffeeScript for .js.coffee assets and views
+# gem 'coffee-rails', '~> 4.0.0'
 
-* Configuration
+Step #2
+Create your controllers
 
-* Database creation
+The app/assets/javascripts will now generate [ControllerName].js instead of [ControllerName].js.coffee
 
-* Database initialization
+Step #3
+Add the following to the [ControllerName].js file:
+var ready = function() {
+	// your javascript code here
+};
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+$(document).ready(ready);
+$(document).on('page:load', ready); // this will allows link_to helpers to work correctly
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Step #4
+Proceed to create your forms (refer to example in the app/views/products of this project for both regular html and simple_form).
+
+Step #5
+Add the ajax to listen for form submission (refer to example in the app/assets/javascripts/products.js file in this project)
+
+Step #6
+Create controller backend to respond to ajax submission and to issue response. For this part refer to app/controllers/products_controller.rb in this project.
+
+    product = Product.new(product_params)
+    respond_to do |format|
+      if product.save
+        format.json {
+          render :json => {:error => "none", :msg => "<p>Product Successfully Added!</p>"}
+        }
+      else
+        format.json {
+          render :json => {:error => "yes", :msg => "<p>Invalid Product!</p>"}
+        }
+      end
+    end
+		
+Your ajax should now work!
+
