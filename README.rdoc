@@ -6,20 +6,20 @@ Follow the regular rails project creation process
 
 === Before creating your controllers
 
-*Step #1*
+*Step#1*
 
 Disable CoffeeScript in Rails Gemfile by commenting it out as follows:
 
-		# Use CoffeeScript for .js.coffee assets and views
-		# gem 'coffee-rails', '~> 4.0.0'
+		#Use CoffeeScript for .js.coffee assets and views
+		#gem 'coffee-rails', '~> 4.0.0'
 
-*Step #2*
+*Step#2*
 
 Create your controllers
 
 The app/assets/javascripts will now generate [ControllerName].js instead of [ControllerName].js.coffee
 
-*Step #3*
+*Step#3*
 
 Add the following to the [ControllerName].js file:
 
@@ -30,16 +30,15 @@ Add the following to the [ControllerName].js file:
 		$(document).ready(ready);
 		$(document).on('page:load', ready); // this will allows link_to helpers to work correctly
 
-
-*Step #4*
+*Step#4*
 
 Proceed to create your forms (refer to example in the app/views/products of this project for both regular html and simple_form).
 
-*Step #5*
+*Step#5*
 
 Add the ajax to listen for form submission (refer to example in the app/assets/javascripts/products.js file in this project)
 
-*Step #6*
+*Step#6*
 
 Create controller backend to respond to ajax submission and to issue response. For this part refer to app/controllers/products_controller.rb in this project.
 
