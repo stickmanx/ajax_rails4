@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=640" />
+
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
+    <title>Ajax rails4 by stickmanx</title>
+  </head>
+
+  <body>
+    <a id="forkme_banner" href="https://github.com/stickmanx/ajax_rails4">View on GitHub</a>
+    <div class="shell">
+
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>Ajax rails4</h1>
+            <h2>Example of Ajax in Rails4</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
+
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/stickmanx/ajax_rails4/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/stickmanx/ajax_rails4/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
+
+
+      <span class="banner-fix"></span>
+
+
+      <section id="main_content">
+        <h1>
+<a name="rails-version-4---simple-ajax-with-javascript" class="anchor" href="#rails-version-4---simple-ajax-with-javascript"><span class="octicon octicon-link"></span></a>Rails version 4 - Simple Ajax with Javascript</h1>
+
+<p>Clone this project to test Ajax in Rails 4. This method should also work for Rails 3, minus the use of strong parameters.</p>
+
+<p>Follow the regular rails project creation process.</p>
+
+<p><strong>Step#1</strong></p>
+
+<p>Disable CoffeeScript (for regular javascript users) before creating your controller in Rails Gemfile by commenting it out as follows:</p>
+
+<pre><code>    #Use CoffeeScript for .js.coffee assets and views
+    #gem 'coffee-rails', '~&gt; 4.0.0'
+</code></pre>
+
+<p><strong>Step#2</strong></p>
+
+<p>Create your controllers</p>
+
+<p>The app/assets/javascripts will now generate [ControllerName].js files instead of [ControllerName].js.coffee</p>
+
+<p><strong>Step#3</strong></p>
+
+<p>Add the following to the [ControllerName].js file:</p>
+
+<pre><code>    var ready = function() {
+        // your javascript code here
+    };
+    $(document).ready(ready);
+    $(document).on('page:load', ready); // this will allows link_to helpers to work correctly
+</code></pre>
+
+<p><strong>Step#4</strong></p>
+
+<p>Proceed to create your forms (refer to example in the <strong>app/views/products/new.html.erb</strong> of this project for both regular html and simple_form).</p>
+
+<p><strong>Regular HTML form</strong></p>
+
+<pre><code>    &lt;form id="new_product" action="/products" method="post"&gt;
+        &lt;input name="authenticity_token" value="&lt;%= form_authenticity_token %&gt;" type="hidden"&gt;
+        &lt;label for="product[name]"&gt;Name&lt;/label&gt;
+        &lt;input type="text" name="product[name]"&gt;
+        &lt;label for="product[description]"&gt;Description&lt;/label&gt;
+        &lt;textarea type="text" name="product[description]" &gt;&lt;/textarea&gt;
+        &lt;label for="product[price]"&gt;Price&lt;/label&gt;
+        &lt;input type="text" name="product[price]"&gt;
+        &lt;input type="submit" value="generate product"&gt;
+    &lt;/form&gt;
+</code></pre>
+
+<p><strong>Simple Form</strong></p>
+
+<pre><code>    &lt;%= simple_form_for Product.new, html: {:id =&gt; "new_product_simple_form"} do |f| %&gt;
+        &lt;%= f.input :name %&gt;
+        &lt;%= f.input :description %&gt;
+        &lt;%= f.input :price %&gt;
+        &lt;%= f.submit :button, :value=&gt;"generate product" %&gt;
+    &lt;% end %&gt;
+</code></pre>
+
+<p><strong>Step#5</strong></p>
+
+<p>Add the ajax to listen for form submission (refer to example in the <strong>app/assets/javascripts/products.js</strong> file in this project)</p>
+
+<p><strong>Regular HTML form javascript</strong></p>
+
+<pre><code>    // regular html form example
+    $('#new_product').submit(function() {
+        console.log("form submit hit"); // for debug
+        $.post(
+            $(this).attr('action'),
+            $(this).serialize(),
+            function(data) {
+                console.log(data); // output response from backend; for debug
+                $('#product_result').html(data.msg) // update product_result html contents
+            },
+            "json"
+        )
+        return false;
+    });
+</code></pre>
+
+<p><strong>Simple Form javascript</strong></p>
+
+<pre><code>    // simple_form example
+    $('#new_product_simple_form').submit(function() {
+        console.log("form submit hit"); // for debug
+        $.post(
+            $(this).attr('action'),
+            $(this).serialize(),
+            function(data) {
+                console.log(data); // output response from backend; for debug
+                $('#product_result').html(data.msg) // update product_result html contents
+            },
+            "json"
+        )
+        return false;
+    });
+</code></pre>
+
+<p>Note: Both regular html form and simple form use the same ajax method, two different IDs were used to illustrate the different forms in view.</p>
+
+<p><strong>Step#6</strong></p>
+
+<p>Create controller backend to respond to ajax submission and to issue response. For this part refer to <strong>app/controllers/products_controller.rb</strong> in this project.</p>
+
+<pre><code>product = Product.new(product_params)
+respond_to do |format|
+  if product.save
+    format.json {
+      render :json =&gt; {:error =&gt; "none", :msg =&gt; "&lt;p&gt;Product Successfully Added!&lt;/p&gt;"}
+    }
+  else
+    format.json {
+      render :json =&gt; {:error =&gt; "yes", :msg =&gt; "&lt;p&gt;Invalid Product!&lt;/p&gt;"}
+    }
+  end
+end
+</code></pre>
+
+<p>Your ajax should now work.
+Enjoy!</p>
+      </section>
+
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/stickmanx">stickmanx</a> can be found on <a href="https://github.com/stickmanx/ajax_rails4">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
